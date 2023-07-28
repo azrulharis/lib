@@ -24,8 +24,32 @@
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('index');
+		$this->Auth->allow('index', 'add', 'edit', 'view', 'verify_index', 'verify_view', 'printing');
 	} 
+
+/**
+ * <?php echo $admin ?>index method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */ 	
+	public function <?php echo $admin ?>index() {
+		$this-><?php echo $currentModelName ?>->recursive = 0;
+		$this->set('<?php echo $pluralName ?>', $this->Paginator->paginate());
+	}
+
+/**
+ * verify_index method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */ 	
+	public function verify_index() {
+		$this-><?php echo $currentModelName ?>->recursive = 0;
+		$this->set('<?php echo $pluralName ?>', $this->Paginator->paginate());
+	}
 
 /**
  * <?php echo $admin ?>view method
@@ -33,8 +57,23 @@
  * @throws NotFoundException
  * @param string $id
  * @return void
- */
+ */ 
 	public function <?php echo $admin ?>view($id = null) {
+		if (!$this-><?php echo $currentModelName; ?>->exists($id)) {
+			throw new NotFoundException(__('Invalid <?php echo strtolower($singularHumanName); ?>'));
+		}
+		$options = array('conditions' => array('<?php echo $currentModelName; ?>.' . $this-><?php echo $currentModelName; ?>->primaryKey => $id));
+		$this->set('<?php echo $singularName; ?>', $this-><?php echo $currentModelName; ?>->find('first', $options));
+	}
+
+/**
+ * verify_view method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */ 
+	public function verify_view($id = null) {
 		if (!$this-><?php echo $currentModelName; ?>->exists($id)) {
 			throw new NotFoundException(__('Invalid <?php echo strtolower($singularHumanName); ?>'));
 		}

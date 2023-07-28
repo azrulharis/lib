@@ -138,7 +138,7 @@ class BakeShell extends AppShell {
  * @return void
  */
 	public function all() {
-		$this->out('Bake All');
+		$this->out('Bake All'); 
 		$this->hr();
 
 		if (!isset($this->params['connection']) && empty($this->connection)) {

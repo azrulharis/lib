@@ -38,21 +38,21 @@ foreach ($fields as $field) {
 		continue;
 	} elseif (in_array($field, array('created', 'modified', 'updated', 'date', 'date_from', 'date_to'))) { ?>
 		<div class="form-group">
-			<label class="col-sm-3"><?php echo ucwords($field); ?></label>
+			<label class="col-sm-3"><?php echo str_replace('_', ' ', ucwords($field)); ?></label>
 			<div class="col-sm-9"> 
-			<?php echo "\t<?php echo \$this->Form->input('{$field}', array('type' => 'text', 'class' => 'form-control date', 'label' => false)); \t?>\n"; ?>
+			<?php echo "\t<?php echo \$this->Form->input('{$field}', array('placeholder' => str_replace('_', ' ', ucwords($field)), 'type' => 'text', 'class' => 'form-control date', 'label' => false)); \t?>\n"; ?>
 			</div>
 		</div>
 	<?php } elseif(in_array($field, array('attachment', 'file'))) { ?>
 		<div class="form-group">
-			<label class="col-sm-3"><?php echo ucwords($field); ?></label>
+			<label class="col-sm-3"><?php echo str_replace('_', ' ', ucwords($field)); ?></label>
 			<div class="col-sm-9"> 
 			<?php echo "\t<?php echo \$this->Form->input('{$field}', array('type' => 'file', 'class' => 'form-control', 'label' => false)); \t?>\n"; ?>
 			</div>
 		</div>
 	<?php } else { ?>
 		<div class="form-group">
-			<label class="col-sm-3"><?php echo ucwords($field); ?></label>
+			<label class="col-sm-3"><?php echo str_replace('_', ' ', ucwords($field)); ?></label>
 			<div class="col-sm-9"> 
 			<?php echo "\t<?php echo \$this->Form->input('{$field}', array('type' => 'text', 'class' => 'form-control', 'label' => false)); \t?>\n"; ?>
 			</div>
