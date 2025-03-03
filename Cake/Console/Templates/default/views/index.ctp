@@ -30,7 +30,28 @@
 echo "<?php echo \$this->Session->flash(); ?>";  
 ?>
 
-<div class="<?php echo $pluralVar; ?> index">
+<?php echo "<?php echo \$this->Form->create('\${$modelClass}', array('url' => array('action' => 'index'), 'class' => 'form-horizontal', 'type' => 'GET')); ?>"; ?>
+	<table cellpadding="0" cellspacing="0" class="table table-bordered">
+	<tr>
+	<td><?php echo "<?php echo \$this->Form->input('name', array('placeholder' => 'Request No', 'class' => 'form-control', 'required' => false, 'id' => 'findProduct', 'label' => false)); ?>"; ?> 
+	</td> 
+	<td><?php echo "<?php echo \$this->Form->input('user', array('placeholder' => 'End User', 'class' => 'form-control', 'required' => false, 'label' => false)); ?>"; ?> 
+	</td>  
+
+	<td><?php echo "<?php echo \$this->Form->input('date_from', array('placeholder' => 'Date from', 'class' => 'form-control date', 'required' => false, 'label' => false)); ?>"; ?> 
+	</td> 
+
+	<td><?php echo "<?php echo \$this->Form->input('date_from', array('placeholder' => 'Date to', 'class' => 'form-control date', 'required' => false, 'label' => false)); ?>"; ?>
+	</td> 
+		
+	<td><?php echo "<?php echo \$this->Form->input('status', array('options' => \$status, 'empty' => '-All Status-', 'class' => 'form-control', 'required' => false, 'label' => false)); ?>"; ?>
+	</td> 
+
+	<td><?php echo "<?php echo \$this->Form->submit('Search', array('type' => 'submit', 'name' => 'search', 'class' => 'btn btn-success pull-right')); ?>"; ?></td> 
+	</tr>
+</table>
+<?php echo "<?php echo \$this->Form->end(); ?>"; ?>
+
 	
 	<table cellpadding="0" cellspacing="0" class="table table-bordered table-hover">
 	<thead>
@@ -63,8 +84,7 @@ echo "<?php echo \$this->Session->flash(); ?>";
 
 		echo "\t\t<td class=\"actions\">\n";
 		echo "\t\t\t<?php echo \$this->Html->link(__('View'), array('action' => 'view', \${$singularVar}['{$modelClass}']['{$primaryKey}'])); ?>\n";
-		echo "\t\t\t<?php echo \$this->Html->link(__('Edit'), array('action' => 'edit', \${$singularVar}['{$modelClass}']['{$primaryKey}'])); ?>\n";
-		echo "\t\t\t<?php echo \$this->Form->postLink(__('Delete'), array('action' => 'delete', \${$singularVar}['{$modelClass}']['{$primaryKey}']), array('confirm' => __('Are you sure you want to delete # %s?', \${$singularVar}['{$modelClass}']['{$primaryKey}']))); ?>\n";
+		echo "\t\t\t<?php echo \$this->Html->link(__('Edit'), array('action' => 'edit', \${$singularVar}['{$modelClass}']['{$primaryKey}'])); ?>\n"; 
 		echo "\t\t</td>\n";
 	echo "\t</tr>\n";
 
@@ -89,11 +109,7 @@ echo "<?php echo \$this->Session->flash(); ?>";
 		echo "echo \$this->Paginator->next('&raquo;', array('tag' => 'li', 'escape' => false), '<a href=\"#\">&raquo;</a>', array('class' => 'prev disabled', 'tag' => 'li', 'escape' => false));";
 		echo "\t?>\n";
 	?>
-	</ul>  
-
-</div>
- 
-
+	</ul>   
 </div>
 </div>
 </div>

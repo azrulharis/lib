@@ -17,7 +17,9 @@
 
 <?php echo "<?php echo \$this->Html->link(__('{$pluralHumanName}'), array('action' => 'index'), array('class' => 'btn btn-sm btn-primary')); ?>"; ?>  
 
-<?php echo "<?php echo \$this->Html->link(__('Edit'), array('action' => 'edit', \${$singularVar}['{$modelClass}']['{$primaryKey}']), array('class' => 'btn btn-sm btn-success')); ?>"; ?>
+<?php echo "<?php echo \$this->Html->link(__('Edit'), array('action' => 'edit', \${$singularVar}['{$modelClass}']['{$primaryKey}']), array('class' => 'btn btn-sm btn-warning')); ?>"; ?>
+
+<?php echo "<?php echo \$this->Html->link(__('Print'), array('action' => 'printing', \${$singularVar}['{$modelClass}']['{$primaryKey}']), array('class' => 'btn btn-sm btn-default')); ?>"; ?>
 
 <div class="row"> 
   <div class="col-xs-12">
@@ -27,8 +29,10 @@
         <div class="clearfix"></div>
       </div>
       <div class="x_content"> 
-
-<div class="<?php echo $pluralVar; ?> view"> 
+<?php  
+echo "<?php echo \$this->Session->flash(); ?>";  
+?>
+ 
 	<table class="table table-bordered table-hover">
 		<?php
 		foreach ($fields as $field) {
@@ -49,9 +53,7 @@
 			}
 		}
 		?>
-	</table>
-</div>
- 
+	</table> 
 
 </div>
 </div>

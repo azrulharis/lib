@@ -34,8 +34,35 @@
  * @param string $id
  * @return void
  */ 	
-	public function <?php echo $admin ?>index() {
+	public function <?php echo $admin ?>index() { 
+		$conditions = array();
+		if(isset($_GET['search'])) {
+			if($_GET['name'] != '') {
+				$conditions['<?php echo $currentModelName; ?>.name LIKE'] = '%' . $_GET['name'] . '%';
+			}
+
+			if($_GET['date_from'] != '') {
+				$conditions['<?php echo $currentModelName; ?>.created >='] = $_GET['date_from'];
+			}
+
+			if($_GET['date_to'] != '') {
+				$conditions['<?php echo $currentModelName; ?>.created <='] = $_GET['date_to'];
+			}
+
+			if($_GET['name'] != '') {
+				$conditions['<?php echo $currentModelName; ?>.name LIKE'] = '%' . $_GET['name'] . '%';
+			}
+
+			$this->request->data['<?php echo $currentModelName; ?>'] = $_GET;
+		}
+
+		$conditions['<?php echo $currentModelName; ?>.group_id'] = $this->group_id;
 		$this-><?php echo $currentModelName ?>->recursive = 0;
+		$this->Paginator->settings = array(
+			'conditions' => $conditions,
+			'order' => '<?php echo $currentModelName; ?>.id DESC'
+		);
+
 		$this->set('<?php echo $pluralName ?>', $this->Paginator->paginate());
 	}
 
@@ -47,7 +74,34 @@
  * @return void
  */ 	
 	public function verify_index() {
+		$conditions = array();
+		if(isset($_GET['search'])) {
+			if($_GET['name'] != '') {
+				$conditions['<?php echo $currentModelName; ?>.name LIKE'] = '%' . $_GET['name'] . '%';
+			}
+
+			if($_GET['date_from'] != '') {
+				$conditions['<?php echo $currentModelName; ?>.created >='] = $_GET['date_from'];
+			}
+
+			if($_GET['date_to'] != '') {
+				$conditions['<?php echo $currentModelName; ?>.created <='] = $_GET['date_to'];
+			}
+
+			if($_GET['name'] != '') {
+				$conditions['<?php echo $currentModelName; ?>.name LIKE'] = '%' . $_GET['name'] . '%';
+			}
+
+			$this->request->data['<?php echo $currentModelName; ?>'] = $_GET;
+		}
+
+		$conditions['<?php echo $currentModelName; ?>.group_id'] = $this->group_id;
 		$this-><?php echo $currentModelName ?>->recursive = 0;
+		$this->Paginator->settings = array(
+			'conditions' => $conditions,
+			'order' => '<?php echo $currentModelName; ?>.id DESC'
+		);
+
 		$this->set('<?php echo $pluralName ?>', $this->Paginator->paginate());
 	}
 
@@ -90,14 +144,30 @@
 	public function <?php echo $admin ?>add() {
 		if ($this->request->is('post')) {
 			$this-><?php echo $currentModelName; ?>->create();
+
+			$ar = $this-><?php echo $currentModelName; ?>->find('first', array(  
+                'recursive' => -1,
+                'order' => '<?php echo $currentModelName; ?>.id DESC'
+                ));
+            $prefix = 'ABC';  
+            if($ar) {
+                $no = preg_replace('/[^0-9.]+/', '', $ar['AssetRequest']['name']);
+                $no = $no + 1;  
+            } else {
+                $no = 1;
+            }    
+            $name = $this->generate_code($prefix, $no);
+            $this->request->data['<?php echo $currentModelName; ?>']['name'] = $namee;
 			$this->request->data['<?php echo $currentModelName; ?>']['created'] = $this->date;
 			$this->request->data['<?php echo $currentModelName; ?>']['user_id'] = $this->user_id;
 			$this->request->data['<?php echo $currentModelName; ?>']['group_id'] = $this->group_id;
 			$this->request->data['<?php echo $currentModelName; ?>']['modified'] = '';
 			if ($this-><?php echo $currentModelName; ?>->save($this->request->data)) {
+				$id = $this-><?php echo $currentModelName; ?>->getLastInsertId();
+
 <?php if ($wannaUseSession): ?>
 				$this->Session->setFlash(__('The <?php echo strtolower($singularHumanName); ?> has been saved.'), 'success');
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('action' => 'view', $id));
 			} else {
 				$this->Session->setFlash(__('The <?php echo strtolower($singularHumanName); ?> could not be saved. Please, try again.'), 'error');
 <?php else: ?>
@@ -137,11 +207,18 @@
 		if ($this->request->is(array('post', 'put'))) {
 			$this->request->data['<?php echo $currentModelName; ?>']['modified'] = $this->date;
 			if ($this-><?php echo $currentModelName; ?>->save($this->request->data)) {
+
+				$name = 'Edit <?php echo $currentModelName; ?>';
+		        $link = '/view/' . $id;
+		        $type = 'Edit <?php echo $currentModelName; ?>';
+
+		        $this->insert_log($this->user_id, $name, $link, $type);
+
 <?php if ($wannaUseSession): ?>
 				$this->Session->setFlash(__('The <?php echo strtolower($singularHumanName); ?> has been saved.'), 'success');
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('action' => 'view', $id));
 			} else {
-				$this->Session->setFlash(__('The <?php echo strtolower($singularHumanName); ?> could not be saved. Please, try again.'), 'error');
+				$this->Session->setFlash(__('The <?php echo strtolower($singularHumanName); ?> could not be saved. Please try again.'), 'error');
 <?php else: ?>
 				return $this->flash(__('The <?php echo strtolower($singularHumanName); ?> has been saved.'), array('action' => 'index'));
 <?php endif; ?>
