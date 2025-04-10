@@ -40,10 +40,9 @@ foreach ($fields as $field) {
 		<div class="form-group">
 			<label class="col-sm-3"><?php echo str_replace('_', ' ', ucwords($field)); ?></label>
 			<div class="col-sm-9"> 
-			<?php 
-			$placeholder = str_replace('_', ' ', ucwords($field));
+			<?php  
 
-			echo "\t<?php echo \$this->Form->input('{$field}', array('placeholder' => {$placeholder}, 'type' => 'text', 'class' => 'form-control date', 'label' => false)); \t?>\n"; ?>
+			echo "\t<?php echo \$this->Form->input('{$field}', array('placeholder' => '', 'type' => 'text', 'class' => 'form-control date', 'label' => false)); \t?>\n"; ?>
 			</div>
 		</div>
 	<?php } elseif(in_array($field, array('attachment', 'file'))) { ?>
@@ -57,57 +56,15 @@ foreach ($fields as $field) {
 		<div class="form-group">
 			<label class="col-sm-3"><?php echo str_replace('_', ' ', ucwords($field)); ?></label>
 			<div class="col-sm-9"> 
-			<?php echo "\t<?php echo \$this->Form->input('{$field}', array('placeholder' => {$placeholder}, 'type' => 'text', 'class' => 'form-control', 'label' => false)); \t?>\n"; ?>
+			<?php echo "\t<?php echo \$this->Form->input('{$field}', array('placeholder' => '', 'type' => 'text', 'class' => 'form-control', 'label' => false)); \t?>\n"; ?>
 			</div>
 		</div>
 	<?php }
 }
-if (!empty($associations['hasAndBelongsToMany'])) {
-	foreach ($associations['hasAndBelongsToMany'] as $assocName => $assocData) {
-		echo "\t\techo \$this->Form->input('{$assocName}');\n";
-	}
-} 
+ 
 ?>
 
-
-		<hr/>
-		<h4>Item</h4>
-		<?php $auth = $this->Session->read('Auth'); ?>
-		<table class="table table-bordered table-hover">
-			<tr>
-				<th>#</th>
-				<th>Item</th>
-				<th>Item Code</th>
-				<th>Remark</th>
-				<th>Qty</th>
-				<th>UOM</th>
-				<th>Action</th>
-			</tr>
-			<tbody id="output">
-				<tr id="removeItem-0">
-					<td>1</td> 
-					<td>
-						<input type="text" id="item-0" name="item[]" class="form-control findItem" placeholder="Item Name"required>
-						<input id="item_id-0" type="hidden" name="item_id[]"required>
-					</td>
-					<td><input type="text" name="item_code[]" class="form-control" placeholder="Item Code"required></td> 
-					<td><textarea name="remark[]" class="form-control" placeholder="Remark"></textarea></td> 
-					<td><input type="text" name="quantity[]" class="form-control" placeholder="Qty"required></td> 
-					<td>
-						<select name="unit_id[]" class="form-control"required>
-							<option value="">-Select UOM-</option>
-							<?php echo "<?php foreach($units as $key => $val) { ?>"; ?>
-							<?php echo "<option value="<?php echo $key; ?>"><?php echo $val; ?></option>"; ?>
-							<?php echo "<?php } ?>"; ?>
-						</select>
-					</td>  
-					<td></td> 
-				</tr>
-			</tbody> 
-		</table> 
-		<a href="#" id="addMore" onclick="return false" class="btn btn-default"><i class="fa fa-plus"></i> Add Item</a>
-		<hr/>
-
+ 
 
 <div class="form-group">
 	<label class="col-sm-3">&nbsp;</label>
@@ -119,28 +76,7 @@ if (!empty($associations['hasAndBelongsToMany'])) {
 	echo "<?php echo \$this->Form->end(); ?>\n";
 ?>
 </div>
-<div class="actions">
-	<h3><?php echo "<?php echo __('Actions'); ?>"; ?></h3>
-	<ul>
-
-<?php if (strpos($action, 'add') === false): ?>
-		<li><?php echo "<?php echo \$this->Form->postLink(__('Delete'), array('action' => 'delete', \$this->Form->value('{$modelClass}.{$primaryKey}')), array('confirm' => __('Are you sure you want to delete # %s?', \$this->Form->value('{$modelClass}.{$primaryKey}')))); ?>"; ?></li>
-<?php endif; ?>
-		<li><?php echo "<?php echo \$this->Html->link(__('List " . $pluralHumanName . "'), array('action' => 'index')); ?>"; ?></li>
-<?php
-		$done = array();
-		foreach ($associations as $type => $data) {
-			foreach ($data as $alias => $details) {
-				if ($details['controller'] != $this->name && !in_array($details['controller'], $done)) {
-					echo "\t\t<li><?php echo \$this->Html->link(__('List " . Inflector::humanize($details['controller']) . "'), array('controller' => '{$details['controller']}', 'action' => 'index')); ?> </li>\n";
-					echo "\t\t<li><?php echo \$this->Html->link(__('New " . Inflector::humanize(Inflector::underscore($alias)) . "'), array('controller' => '{$details['controller']}', 'action' => 'add')); ?> </li>\n";
-					$done[] = $details['controller'];
-				}
-			}
-		}
-?>
-	</ul>
-</div>
+ 
 
 </div>
 </div>

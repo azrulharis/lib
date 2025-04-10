@@ -16,9 +16,7 @@
 ?>
 
 <?php echo "<?php echo \$this->Html->link(__('{$pluralHumanName}'), array('action' => 'index'), array('class' => 'btn btn-sm btn-primary')); ?>"; ?>  
-
 <?php echo "<?php echo \$this->Html->link(__('Edit'), array('action' => 'edit', \${$singularVar}['{$modelClass}']['{$primaryKey}']), array('class' => 'btn btn-sm btn-warning')); ?>"; ?>
-
 <?php echo "<?php echo \$this->Html->link(__('Print'), array('action' => 'printing', \${$singularVar}['{$modelClass}']['{$primaryKey}']), array('class' => 'btn btn-sm btn-default')); ?>"; ?>
 
 <div class="row"> 
@@ -29,33 +27,33 @@
         <div class="clearfix"></div>
       </div>
       <div class="x_content"> 
-<?php  
-echo "<?php echo \$this->Session->flash(); ?>";  
-?>
- 
-	<table class="table table-bordered table-hover">
-		<?php
-		foreach ($fields as $field) {
-			$isKey = false;
-			if (!empty($associations['belongsTo'])) {
-				foreach ($associations['belongsTo'] as $alias => $details) {
-					if ($field === $details['foreignKey']) {
-						$isKey = true;
-						echo "\t\t<tr><td><?php echo __('" . Inflector::humanize(Inflector::underscore($alias)) . "'); ?></td>\n";
-						echo "\t\t<td>\n\t\t\t<?php echo \$this->Html->link(\${$singularVar}['{$alias}']['{$details['displayField']}'], array('controller' => '{$details['controller']}', 'action' => 'view', \${$singularVar}['{$alias}']['{$details['primaryKey']}'])); ?>\n\t\t\t&nbsp;\n\t\t</td></tr>\n";
-						break;
-					}
-				}
-			}
-			if ($isKey !== true) {
-				echo "\t\t<tr><td><?php echo __('" . Inflector::humanize($field) . "'); ?></td>\n";
-				echo "\t\t<td>\n\t\t\t<?php echo h(\${$singularVar}['{$modelClass}']['{$field}']); ?>\n\t\t\t&nbsp;\n\t\t</td></tr>\n";
-			}
-		}
-		?>
-	</table> 
+        <?php echo "<?php echo \$this->Session->flash(); ?>"; ?>  
+        
+        <table class="table table-bordered table-hover">
+          <?php
+          foreach ($fields as $field) {
+              $isKey = false;
+              // Check if the field is a foreign key (belongsTo relationship)
+              if (!empty($associations['belongsTo'])) {
+                  foreach ($associations['belongsTo'] as $alias => $details) {
+                      if ($field === $details['foreignKey']) {
+                          $isKey = true;
+                          echo "\t<tr><td><?php echo __('" . Inflector::humanize(Inflector::underscore($alias)) . "'); ?></td>\n";
+                          echo "\t<td>\n\t\t<?php echo \$this->Html->link(\${$singularVar}['{$alias}']['{$details['displayField']}'], array('controller' => '{$details['controller']}', 'action' => 'view', \${$singularVar}['{$alias}']['{$details['primaryKey']}'])); ?>\n\t\t&nbsp;</td></tr>\n";
+                          break;
+                      }
+                  }
+              }
+              // If not a foreign key, just display the field value
+              if ($isKey !== true) {
+                  echo "\t<tr><td><?php echo __('" . Inflector::humanize($field) . "'); ?></td>\n";
+                  echo "\t<td>\n\t\t<?php echo h(\${$singularVar}['{$modelClass}']['{$field}']); ?>\n\t\t&nbsp;</td></tr>\n";
+              }
+          }
+          ?>
+        </table> 
 
-</div>
-</div>
-</div>
+      </div>
+    </div>
+  </div>
 </div>

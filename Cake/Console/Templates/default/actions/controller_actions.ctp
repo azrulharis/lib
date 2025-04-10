@@ -157,7 +157,7 @@
                 $no = 1;
             }    
             $name = $this->generate_code($prefix, $no);
-            $this->request->data['<?php echo $currentModelName; ?>']['name'] = $namee;
+            $this->request->data['<?php echo $currentModelName; ?>']['name'] = $name;
 			$this->request->data['<?php echo $currentModelName; ?>']['created'] = $this->date;
 			$this->request->data['<?php echo $currentModelName; ?>']['user_id'] = $this->user_id;
 			$this->request->data['<?php echo $currentModelName; ?>']['group_id'] = $this->group_id;
